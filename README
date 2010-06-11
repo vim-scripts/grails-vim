@@ -1,0 +1,18 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=3120
+
+Grails-vim makes it easy to navigate Grails projects and view the test reports that Grails creates.
+
+  - Navigate from Domain Models to Controllers, Views, Tests and Test Reports
+  - Easily view the errors / failed tests, and jump to the failed tests.
+  - Quickly navigate controller methods, such as Save, Create, Edit, Index
+  - Provides built-in syntax highlighting for .gsp pages
+
+Screenshots:
+
+http://notesmine.com/grails_vim#screenshots
+
+Recommended Additional Plugins:
+
+Fuzzy Finder:  http://www.vim.org/scripts/script.php?script_id=1984
+
+
