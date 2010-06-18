@@ -11,6 +11,7 @@
 if &cp || (exists("g:loaded_grails") && g:loaded_grails) 
   finish
 endif
+
 let g:loaded_grails = 1
 
 " If we're in a grails directory, then
@@ -204,7 +205,7 @@ function! s:GrailsOpenItem(thisItem, ...)
     endif
 endfunction
 
-function! grails#SetGrailsControllerMarks(silent)
+function! grails#GrailsControllerMarks(silent)
     " Todo: find better way to restore orig. pos.
     exe "ma z"
     exe "silent g/def\ delete\\>/ma\ d"
@@ -257,44 +258,44 @@ noremap <SID>GrailsDisplayTestReports :call <SID>GrailsDisplayTestReports()<CR>
 
 noremap <unique> <script> <Plug>GrailsDisplayTestXml <SID>GrailsDisplayTestXml
 noremap <SID>GrailsDisplayTestXml :call <SID>GrailsDisplayTestXml()<CR>
+
+noremap <unique> <script> <Plug>GrailsControllerMarks <SID>GrailsControllerMarks
+noremap <SID>GrailsControllerMarks :call grails#GrailsControllerMarks()<CR>
+
+noremap <unique> <script> <Plug>GrailsDisplayUrlMappings <SID>GrailsDisplayUrlMappings
+noremap <SID>GrailsDisplayUrlMappings :call <SID>GrailsOpenItem("UrlMappings.groovy")<CR>
 " }}}1
 
 let s:parseScript=findfile('bin/testSuitesXmlParse.groovy', &rtp) 
 
 " Mappings {{{1
-if !hasmapto('<Plug>GrailsDisplayViews') 
-    map <unique> <Leader>gv <Plug>GrailsDisplayViews
-endif 
+" Default the Grails-Vim MapPrefix to leader g.
+if !exists("g:GrailsMapPrefix")
+    let g:GrailsMapPrefix='<Leader>g'
+endif
 
-if !hasmapto('<Plug>GrailsDisplayDomainClass') 
-    map <unique> <Leader>gd <Plug>GrailsDisplayDomainClass
-endif 
 
-if !hasmapto('<Plug>GrailsDisplayController') 
-    map <unique> <Leader>gc <Plug>GrailsDisplayController
-endif 
+function s:GrailsMap(char, mapping)
+    let l:curMap = maparg(g:GrailsMapPrefix . a:char) 
+    if l:curMap == ""
+        exe "map <unique> <silent> " . g:GrailsMapPrefix . a:char . " " . a:mapping
+    else
+        echo "Grails-vim:  Won't map " . a:mapping . ".  " . 
+                    \ g:GrailsMapPrefix . a:char . " is already mapped to " . l:curMap
+    endif
 
-if !hasmapto('<Plug>GrailsDisplayService') 
-    map <unique> <Leader>gs <Plug>GrailsDisplayService
-endif 
+endfunction
 
-if !hasmapto('<Plug>GrailsDisplayTest') 
-    map <unique> <Leader>gt <Plug>GrailsDisplayTests
-endif 
-
-if !hasmapto('<Plug>GrailsDisplayTestReports') 
-    map <unique> <Leader>gr <Plug>GrailsDisplayTestReports
-endif 
-
-if !hasmapto('<Plug>GrailsDisplayTestXml') 
-    map <unique> <Leader>gx <Plug>GrailsDisplayTestXml
-endif 
-
-nmap <silent> <S-F10> :call <SID>grails#SetGrailsControllerMarks()<CR>
-
-if !hasmapto('<Plug>GrailsReadTestOutput') 
-    map <unique> <Leader>gg <Plug>GrailsReadTestOutput
-endif 
+call <SID>GrailsMap("c", "<Plug>GrailsDisplayController")
+call <SID>GrailsMap("d", "<Plug>GrailsDisplayDomainClass")
+call <SID>GrailsMap("g", "<Plug>GrailsReadTestOutput")
+call <SID>GrailsMap("m", "<Plug>GrailsControllerMarks")
+call <SID>GrailsMap("r", "<Plug>GrailsDisplayTestReports")
+call <SID>GrailsMap("s", "<Plug>GrailsDisplayService")
+call <SID>GrailsMap("t", "<Plug>GrailsDisplayTests")
+call <SID>GrailsMap("u", "<Plug>GrailsDisplayUrlMappings")
+call <SID>GrailsMap("v", "<Plug>GrailsDisplayViews")
+call <SID>GrailsMap("x", "<Plug>GrailsDisplayTestXml")
 
 " }}}1
 " vim: set fdm=marker:
