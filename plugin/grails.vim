@@ -269,9 +269,9 @@ noremap <SID>GrailsDisplayUrlMappings :call <SID>GrailsOpenItem("UrlMappings.gro
 let s:parseScript=findfile('bin/testSuitesXmlParse.groovy', &rtp) 
 
 " Mappings {{{1
-" Default the Grails-Vim MapPrefix to leader g.
+" Default the Grails-Vim MapPrefix to leader f.
 if !exists("g:GrailsMapPrefix")
-    let g:GrailsMapPrefix='<Leader>g'
+    let g:GrailsMapPrefix='<Leader>gr'
 endif
 
 
